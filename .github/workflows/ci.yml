@@ -21,12 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-haskell@v1.1
-        with:
-          enable-stack: true
-          stack-version: 'latest'
-          stack-no-global: true
-          stack-setup-ghc: true
       - name: Stack cache
         uses: actions/cache@v1
         env:
