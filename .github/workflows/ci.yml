@@ -26,9 +26,11 @@ jobs:
         env:
           cache-name: cache-stack
         with:
-          path: ${{ github.repository }}/.stack-work
+          path: ~/.stack
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-${{ hashFiles('stack.yaml') }}-${{ hashFiles('stack.yaml.lock') }}
           restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-${{ hashFiles('stack.yaml') }}-
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
