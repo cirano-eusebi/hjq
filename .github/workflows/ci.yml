@@ -1,0 +1,44 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [ $default-branch ]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup HLint
+        uses: haskell/actions/hlint-setup@v1
+        with:
+          version: '3.1.6'
+      - name: HLint
+        uses: haskell/actions/hlint-run@v1
+        with:
+          path: '["src/","app/","test/"]'
+          fail-on: warning
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-haskell@v1.1
+        with:
+          enable-stack: true
+          stack-version: 'latest'
+          stack-no-global: true
+          stack-setup-ghc: true
+      - name: Stack cache
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-stack
+        with:
+          path: ${{ github.repository }}/.stack-work
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-${{ hashFiles('stack.yaml') }}-${{ hashFiles('stack.yaml.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: build
+        run: make build
+      - name: test
+        run: make test
