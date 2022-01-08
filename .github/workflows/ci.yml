@@ -27,12 +27,12 @@ jobs:
           cache-name: cache-stack
         with:
           path: ~/.stack
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-${{ hashFiles('stack.yaml') }}-${{ hashFiles('stack.yaml.lock') }}
+          key: ${{ runner.os }}-ci-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-${{ hashFiles('stack.yaml') }}-${{ hashFiles('stack.yaml.lock') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-${{ hashFiles('stack.yaml') }}-
-            ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-ci-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-${{ hashFiles('stack.yaml') }}-
+            ${{ runner.os }}-ci-${{ env.cache-name }}-${{ hashFiles('package.yaml') }}-
+            ${{ runner.os }}-ci-${{ env.cache-name }}-
+            ${{ runner.os }}-ci-
             ${{ runner.os }}-
       - name: build
         run: make build
