@@ -1,2 +1,12 @@
+import Test.Tasty
+
+import Bugs ( bugs )
+import Features ( features )
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = do
+    defaultMain $ testGroup "All"
+        [
+            testGroup "Bugs" bugs,
+            testGroup "Features" features
+        ]

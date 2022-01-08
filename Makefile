@@ -1,9 +1,12 @@
-.PHONY: all
+.PHONY: all build test run ghci
 
-all: | build run
+all: | build test run
 
 build:
 	@stack build
+
+test:
+	@stack test
 
 run:
 	@stack exec hjq-exe

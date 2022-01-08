@@ -26,6 +26,9 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Parser
+      Parser.Operations
+      Parser.Types
   other-modules:
       Paths_hjq
   hs-source-dirs:
@@ -58,6 +61,10 @@ test-suite hjq-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Bugs
+      Bugs.Bug0
+      Features
+      Features.Feature0
       Paths_hjq
   hs-source-dirs:
       test
@@ -65,4 +72,6 @@ test-suite hjq-test
   build-depends:
       base >=4.7 && <5
     , hjq
+    , tasty
+    , tasty-hunit
   default-language: Haskell2010
