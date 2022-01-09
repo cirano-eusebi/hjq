@@ -2,8 +2,8 @@
 module Lib
     where
 
-import Types (Query)
-import Parser.Extensions.StringQuery ()
+import Types (Query, ExprQuery)
+import Extensions.StringQuery ()
 
 someFunc :: IO ()
 someFunc = print ("." :: Query)
