@@ -12,4 +12,4 @@ parseS = string "." >> (
     )
 
 r :: String -> Either ParseError [S]
-r = parse (extract parseS "|") "" 
+r = parse (extract parseS "|") "Query Parser"

@@ -27,6 +27,7 @@ library
   exposed-modules:
       Lib
       Parser
+      Parser.Extensions.StringQuery
       Parser.Operations
       Parser.Types
   other-modules:
@@ -65,6 +66,7 @@ test-suite hjq-test
       Bugs.Bug0
       Features
       Features.Feature0
+      Features.Feature1
       Paths_hjq
   hs-source-dirs:
       test

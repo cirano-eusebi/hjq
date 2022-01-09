@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
-
 module Lib
     where
 
-import Parser ( r )
+import Parser.Types (Query)
+import Parser.Extensions.StringQuery ()
 
 someFunc :: IO ()
-someFunc = print "start" >> print (r ".") <* print "end"
+someFunc = print ("." :: Query)

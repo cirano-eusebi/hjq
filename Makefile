@@ -1,6 +1,6 @@
 .PHONY: all build test run ghci
 
-all: | build test run
+all: | test run
 
 build:
 	@stack build
