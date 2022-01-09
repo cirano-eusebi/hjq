@@ -5,7 +5,7 @@ module Features.Feature1 ( main ) where
 import Test.Tasty
 import Test.Tasty.HUnit
 import Types (Query(..), S(..))
-import Parser.Extensions.StringQuery ()
+import Extensions.StringQuery ()
 import Data.Either (isLeft)
 
 main :: TestTree

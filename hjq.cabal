@@ -25,9 +25,11 @@ source-repository head
 
 library
   exposed-modules:
+      Apply
+      Builder
+      Extensions.StringQuery
       Lib
       Parser
-      Parser.Extensions.StringQuery
       Parser.Operations
       Types
   other-modules:

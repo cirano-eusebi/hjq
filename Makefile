@@ -11,6 +11,6 @@ test:
 run:
 	@stack exec hjq-exe
 
-ghci-options = -XOverloadedStrings
+ghc-options = -XOverloadedStrings
 ghci:
-	@stack ghci --ghci-options $(ghci-options)
+	@stack ghci --ghc-options $(ghc-options)
