@@ -1,4 +1,6 @@
-module Apply where
+module Apply (
+    (>?), (<?)
+) where
 
 import Types (ExprQuery(..))
 import Data.Aeson ( Value )
