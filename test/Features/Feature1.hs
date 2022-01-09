@@ -4,7 +4,7 @@ module Features.Feature1 ( main ) where
 
 import Test.Tasty
 import Test.Tasty.HUnit
-import Parser.Types (Query(..), S(..))
+import Types (Query(..), S(..))
 import Parser.Extensions.StringQuery ()
 import Data.Either (isLeft)
 

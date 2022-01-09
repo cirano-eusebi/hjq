@@ -29,7 +29,7 @@ library
       Parser
       Parser.Extensions.StringQuery
       Parser.Operations
-      Parser.Types
+      Types
   other-modules:
       Paths_hjq
   hs-source-dirs:

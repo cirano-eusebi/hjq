@@ -1,4 +1,7 @@
-module Parser.Types where
+module Types (
+    S(..),
+    Query(..)
+) where
 
 import Text.Parsec
 

@@ -1,8 +1,8 @@
 module Parser.Extensions.StringQuery where
 
 import Data.String (IsString(..))
-import Parser.Types (Query(..))
+import Types (Query(..))
 import Parser (r)
 
 instance IsString Query where
-    fromString s = Query $ r s
+    fromString = r

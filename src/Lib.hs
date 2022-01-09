@@ -2,7 +2,7 @@
 module Lib
     where
 
-import Parser.Types (Query)
+import Types (Query)
 import Parser.Extensions.StringQuery ()
 
 someFunc :: IO ()

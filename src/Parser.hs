@@ -1,9 +1,11 @@
-module Parser where
+module Parser (
+    r
+) where
 
 import Text.Parsec
 import Text.Parsec.String (Parser)
-import Parser.Types
 import Parser.Operations
+import Types
 
 parseS :: Parser S
 parseS = string "." >> (
@@ -11,5 +13,5 @@ parseS = string "." >> (
         Move <$> try (optionMaybe (many1 alphaNum))
     )
 
-r :: String -> Either ParseError [S]
-r = parse (extract parseS "|") "Query Parser"
+r :: String -> Query
+r = Query . parse (extract parseS "|") "Query Parser"
