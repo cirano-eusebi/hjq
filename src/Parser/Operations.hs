@@ -5,6 +5,10 @@ import Text.Parsec.String (Parser)
 
 brackets :: Parser a -> Parser a
 brackets = between (string "[") (string "]")
+
+parenthesis :: Parser a -> Parser a
+parenthesis = between (string "(") (string ")")
+
 digits :: Parser Int
 digits = read <$> many1 digit
 

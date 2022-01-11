@@ -8,13 +8,22 @@ import Parser.Operations
 import Types
 
 parseS :: Parser S
-parseS = string "." >> (
-        Index <$> try (brackets digits) <|>
-        Move <$> try (optionMaybe (many1 alphaNum))
-    )
+parseS =
+        (Index <$> try (brackets digits)) <|>
+        (string "." >> Move <$> try (optionMaybe (many1 alphaNum))) <|>
+        (Condition <$> try (parenthesis parseExpression))
+
+parseExpression :: Parser BooleanExpr
+parseExpression = SimpleExpr <$> try (many1 alphaNum)
+-- <|> ComplexExpr 
+-- <|> UniExpr 
+
+-- parseOperation :: Parser SimpleOperation
+-- parseOperation = SimpleOperation 
 
 p :: String -> Query
 p = Query . parse (extract parseS "|") "Query Parser"
+
 
 -- example with multiple args
 -- for imputs like "F0" "F1a","F2(b)", "F3-c"
