@@ -62,3 +62,4 @@ tests:
     - hjq
     - tasty
     - tasty-hunit
+    - text-format-simple

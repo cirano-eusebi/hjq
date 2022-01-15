@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Features.Feature1 ( main ) where
+module Features.ParseMoveQueries ( main ) where
 
 import Test.Tasty
 import Test.Tasty.HUnit
