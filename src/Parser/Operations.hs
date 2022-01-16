@@ -13,6 +13,6 @@ digits :: Parser Int
 digits = read <$> many1 digit
 
 extract :: Parser a -> String -> Parser[a]
-extract p sequenceDelim = do (:) <$> try p <*> extract p sequenceDelim
+extract p sequenceDelim = (:) <$> try p <*> extract p sequenceDelim
         <|> do string sequenceDelim >> extract p sequenceDelim
         <|> do eof >> return []
