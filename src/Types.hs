@@ -1,9 +1,4 @@
-module Types (
-    S(..),
-    Query(..),
-    ExprQuery(..),
-    BooleanExpr(..)
-) where
+module Types where
 
 import Text.Parsec
 import Data.Aeson.Types (Value)
@@ -19,9 +14,12 @@ newtype Query = Query { unQuery :: Either ParseError [S] }
 newtype ExprQuery = ExprQuery (Either ParseError [Maybe Value -> Maybe Value])
 
 data BooleanExpr = SimpleExpr String
-    | ComplexExpr String SimpleOperation String
-    | UniExpr SimpleOperation String
+    | ComplexExpr String BiOperation String
+    | UniExpr UniOperation String
     deriving (Show, Eq)
 
-data SimpleOperation = Eq | Lt | Gt | Not
+data BiOperation = Eq | Lt | Gt | Lte | Gte
+    deriving (Show, Eq)
+
+data UniOperation = Not | Empty | NotEmpty
     deriving (Show, Eq)
