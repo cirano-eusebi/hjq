@@ -67,8 +67,10 @@ test-suite hjq-test
       Bugs
       Bugs.Bug0
       Features
+      Features.ApplyMoveQueries
       Features.Feature0
-      Features.Feature1
+      Features.ParseIndexQueries
+      Features.ParseMoveQueries
       Paths_hjq
   hs-source-dirs:
       test
@@ -78,4 +80,5 @@ test-suite hjq-test
     , hjq
     , tasty
     , tasty-hunit
+    , text-format-simple
   default-language: Haskell2010
