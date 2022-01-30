@@ -23,14 +23,14 @@ rejectEmptyBrackets = testCase "Reject empty brackets" $
 
 allowIntegers :: TestTree
 allowIntegers = testGroup "Accept brackets with ints" $
-    map (\n -> testCase (format "\".[{0}]\"" [show n]) $
-        Parser.p (format ".[{0}]" [show n])@?=
+    map (\n -> testCase (format "\"[{0}]\"" [show n]) $
+        Parser.p (format "[{0}]" [show n])@?=
         Query (Right [Index n])
     ) [0, 5, 10, 999]
 
 rejectBracketsWithStrings :: TestTree
 rejectBracketsWithStrings = testGroup "Reject brackets with strings" $
-        map (\n -> testCase (format "\".[{0}]\"" [show n]) $
-            isLeft(unQuery (Parser.p (format ".[{0}]" [show n])))@?
+        map (\n -> testCase (format "\"[{0}]\"" [show n]) $
+            isLeft(unQuery (Parser.p (format "[{0}]" [show n])))@?
             format "\"[{0}]\" was parsed to the right" [show n]
     ) ["", "0", "14"]
