@@ -1,5 +1,15 @@
-S ::= '.' | (('.' key)+ | ('[' index ']')+)+
+Query ::= ( (Sentence+) | '|' )*
+
+Sentence ::= ('.' key?) | ('[' index ']') | ('(' booleanQuery ')')
+
+booleanQuery ::= (unaryOp key) | (key binaryOp literal) | (key)
+
+unaryOp ::= 'not'
+
+binaryOp ::= 'eq' | 'gt' | 'gte' | 'lt' | 'lte'
 
 index ::= [0-9]*
 
 key ::= [a-zA-Z][a-zA-Z0-9]*
+
+literal ::= '"' [*] '"'
