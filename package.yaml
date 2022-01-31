@@ -59,7 +59,9 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - aeson
     - hjq
     - tasty
     - tasty-hunit
     - text-format-simple
+    - utf8-string

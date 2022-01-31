@@ -11,8 +11,6 @@ data S = Move (Maybe String)
 newtype Query = Query { unQuery :: Either ParseError [S] }
     deriving (Show, Eq)
 
-newtype ExprQuery = ExprQuery (Either ParseError [Maybe Value -> Maybe Value])
-
 data BooleanExpr = SimpleExpr String
     | ComplexExpr String BiOperation String
     | UniExpr UniOperation String

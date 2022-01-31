@@ -2,7 +2,7 @@
 module Lib
     where
 
-import Types (Query, ExprQuery)
+import Types (Query)
 import Extensions.StringQuery ()
 
 someFunc :: IO ()

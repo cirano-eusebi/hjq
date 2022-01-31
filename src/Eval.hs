@@ -1,5 +1,5 @@
-module Builder (
-    b
+module Eval (
+    eval, (>?), (<?)
 ) where
 
 import Control.Lens ( (^?), preview )
@@ -11,50 +11,60 @@ import Data.Scientific ( Scientific(..), scientific )
 import Text.Read ( readMaybe )
 import Types
 
+bindMaybe :: Maybe a -> (a -> Maybe b) -> Maybe b
+bindMaybe Nothing _ = Nothing
+bindMaybe (Just x) f = f x
+
 buildS :: S -> Maybe Value -> Maybe Value
 buildS (Move Nothing) = id
-buildS (Move (Just k)) = \(Just v) -> v ^? key (pack k)
+buildS (Move (Just k)) = \mv -> bindMaybe mv (\v -> v ^? key (pack k))
 -- buildS (Move (Just k)) = \(Just v) -> preview (key (pack k)) v
-buildS (Index n) = \(Just v) -> v ^? nth n
-buildS (Condition (SimpleExpr keyString)) = \(Just v) -> case v ^? key (pack keyString) of
+buildS (Index n) = \mv -> bindMaybe mv (\v -> v ^? nth n)
+buildS (Condition (SimpleExpr keyString)) = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Bool True) -> Just v
-    _ -> Nothing
+    _ -> Nothing)
 buildS (Condition (ComplexExpr keyString op literal)) = buildComplexExpr op keyString literal
 buildS (Condition (UniExpr op keyString)) = buildUniExpr op keyString
 
 buildComplexExpr :: BiOperation -> String -> String -> Maybe Value -> Maybe Value
-buildComplexExpr Eq keyString literal = \(Just v) -> case v ^? key (pack keyString) of
+buildComplexExpr Eq keyString literal = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Number n) -> if Just n == (readMaybe literal :: Maybe Scientific) then Just v else Nothing
     Just (String s) -> if s == pack literal then Just v else Nothing
-    _ -> Nothing
-buildComplexExpr Lt keyString literal = \(Just v) -> case v ^? key (pack keyString) of
+    _ -> Nothing)
+buildComplexExpr Lt keyString literal = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Number n) -> if n < fromMaybe (scientific (-1) 1000) (readMaybe literal :: Maybe Scientific) then Just v else Nothing
     Just (String s) -> if s < pack literal then Just v else Nothing
-    _ -> Nothing
-buildComplexExpr Lte keyString literal = \(Just v) -> case v ^? key (pack keyString) of
+    _ -> Nothing)
+buildComplexExpr Lte keyString literal = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Number n) -> if n <= fromMaybe (scientific (-1) 1000) (readMaybe literal :: Maybe Scientific) then Just v else Nothing
     Just (String s) -> if s <= pack literal then Just v else Nothing
-    _ -> Nothing
-buildComplexExpr Gt keyString literal = \(Just v) -> case v ^? key (pack keyString) of
+    _ -> Nothing)
+buildComplexExpr Gt keyString literal = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Number n) -> if n > fromMaybe (scientific 1 1000) (readMaybe literal :: Maybe Scientific) then Just v else Nothing
     Just (String s) -> if s > pack literal then Just v else Nothing
-    _ -> Nothing
-buildComplexExpr Gte keyString literal = \(Just v) -> case v ^? key (pack keyString) of
+    _ -> Nothing)
+buildComplexExpr Gte keyString literal = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Number n) -> if n >= fromMaybe (scientific 1 1000) (readMaybe literal :: Maybe Scientific) then Just v else Nothing
     Just (String s) -> if s >= pack literal then Just v else Nothing
-    _ -> Nothing
+    _ -> Nothing)
 
 buildUniExpr :: UniOperation -> String -> Maybe Value -> Maybe Value
-buildUniExpr Not keyString = \(Just v) -> case v ^? key (pack keyString) of
+buildUniExpr Not keyString = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Bool False) -> Just v
-    _ -> Nothing
-buildUniExpr Empty keyString = \(Just v) -> case v ^? key (pack keyString) of
+    _ -> Nothing)
+buildUniExpr Empty keyString = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Array vector) -> if null vector then Just v else Nothing
-    _ -> Nothing
-buildUniExpr NotEmpty keyString = \(Just v) -> case v ^? key (pack keyString) of
+    _ -> Nothing)
+buildUniExpr NotEmpty keyString = \mv -> bindMaybe mv (\v -> case v ^? key (pack keyString) of
     Just (Array vector) -> if not $ null vector then Just v else Nothing
-    _ -> Nothing
+    _ -> Nothing)
 
-b :: Query -> ExprQuery
-b (Query(Left e)) = ExprQuery(Left e)
-b (Query(Right xs)) = ExprQuery(Right (map buildS xs))
+eval :: Query -> (Maybe Value -> Maybe Value)
+eval (Query(Left e)) = const Nothing
+eval (Query(Right xs)) = foldr (\s f -> f . buildS s) id xs
+
+(>?) :: Query -> (Maybe Value -> Maybe Value)
+(>?) = eval
+
+(<?) :: Maybe Value -> Query -> Maybe Value
+(<?) = flip eval
