@@ -10,7 +10,7 @@ import Types
 parseS :: Parser S
 parseS =
     Index <$> try (brackets digits) <|>
-    (try $ string "." >> Move <$> try (optionMaybe (many1 alphaNum))) <|>
+    try (string "." >> Move <$> try (optionMaybe (many1 alphaNum))) <|>
     Condition <$> try (parenthesis parseExpression)
 
 parseExpression :: Parser BooleanExpr
@@ -34,17 +34,20 @@ parseUniExpression = do
     second <- parseUniOp
     return $ UniExpr second first
 
+parseOp :: String -> a -> Parser a
+parseOp name op = try $ string name >> parserReturn op
+
 parseBiOp :: Parser BiOperation
-parseBiOp = (try $ string "eq" >> parserReturn Eq) <|>
-    (try $ string "gt" >> parserReturn Gt) <|>
-    (try $ string "lt" >> parserReturn Lt) <|>
-    (try $ string "gte" >> parserReturn Gte) <|>
-    (try $ string "lte" >> parserReturn Lte)
+parseBiOp = parseOp "eq" Eq <|>
+    parseOp "gt" Gt <|>
+    parseOp "lt" Lt <|>
+    parseOp "gte" Gte <|>
+    parseOp "lte" Lte
 
 parseUniOp :: Parser UniOperation
-parseUniOp = (try $ string "not" >> parserReturn Not) <|>
-    (try $ string "empty" >> parserReturn Types.Empty) <|>
-    (try $ string "notEmpty" >> parserReturn NotEmpty)
+parseUniOp = parseOp "not" Not <|>
+    parseOp "empty" Types.Empty <|>
+    parseOp "notEmpty" NotEmpty
 
 -- parseOperation :: Parser SimpleOperation
 -- parseOperation = SimpleOperation 
