@@ -4,7 +4,7 @@ import Text.Parsec
 import Data.Aeson.Types (Value)
 
 data S = Move (Maybe String)
-    | Index Int 
+    | Index Int
     | Condition BooleanExpr
     deriving (Show, Eq)
 

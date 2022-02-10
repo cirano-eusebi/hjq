@@ -10,7 +10,7 @@ import Types
 parseS :: Parser S
 parseS =
     Index <$> try (brackets digits) <|>
-    try (string "." >> Move <$> try (optionMaybe (many1 alphaNum))) <|>
+    Move <$> try (string "." >> try (optionMaybe (many1 alphaNum))) <|>
     Condition <$> try (parenthesis parseExpression)
 
 parseExpression :: Parser BooleanExpr
@@ -49,12 +49,8 @@ parseUniOp = parseOp "not" Not <|>
     parseOp "empty" Types.Empty <|>
     parseOp "notEmpty" NotEmpty
 
--- parseOperation :: Parser SimpleOperation
--- parseOperation = SimpleOperation 
-
 p :: String -> Query
 p = Query . parse (extract parseS "|") "Query Parser"
-
 
 -- example with multiple args
 -- for imputs like "F0" "F1a","F2(b)", "F3-c"
