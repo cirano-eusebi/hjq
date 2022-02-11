@@ -14,8 +14,8 @@ import Types
 
 buildS :: S -> Maybe Value -> Maybe Value
 buildS (Move Nothing) = id
-buildS (Move (Just k)) = (=<<) (\v -> v ^? key (pack k))
-buildS (Index n) = (=<<) (\v -> v ^? nth n)
+buildS (Move (Just k)) = (=<<) (^? key (pack k))
+buildS (Index n) = (=<<) (^? nth n)
 buildS (Condition (SimpleExpr keyString)) = (=<<) (\v -> case v ^? key (pack keyString) of
     Just (Bool True) -> Just v
     _ -> Nothing)
