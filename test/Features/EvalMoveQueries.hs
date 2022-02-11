@@ -18,7 +18,9 @@ import Data.Aeson.Text
 main :: TestTree
 main = testGroup "Apply: Move Queries" [
         emptyStringDoesntMove,
-        singleKeyMovesOnce
+        singleKeyMovesOnce,
+        doubleKeyMovesTwice,
+        doubleKey
     ]
 
 emptyStringDoesntMove :: TestTree
@@ -37,3 +39,8 @@ doubleKeyMovesTwice :: TestTree
 doubleKeyMovesTwice = testCase "Double key Moves twice"
     $ encodeToLazyText((".one.two" :: Query)>? (decode "{\"one\":{\"two\":{\"three\":{}}}}" :: Maybe Value))
     @?= fromString "{\"three\":{}}"
+
+doubleKey :: TestTree
+doubleKey = testCase "Double Key and Array result"
+    $ encodeToLazyText((".one.five" :: Query)>? (decode "{\"one\":{\"five\":[\"A\", \"B\", \"C\"]}}" :: Maybe Value))
+    @?= fromString "[\"A\",\"B\",\"C\"]"

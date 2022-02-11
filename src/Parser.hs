@@ -45,9 +45,10 @@ parseBiOp = parseOp "eq" Eq <|>
     parseOp "lte" Lte
 
 parseUniOp :: Parser UniOperation
-parseUniOp = parseOp "not" Not <|>
+parseUniOp =
     parseOp "empty" Types.Empty <|>
-    parseOp "notEmpty" NotEmpty
+    parseOp "notEmpty" Types.NotEmpty <|>
+    parseOp "not" Not
 
 p :: String -> Query
 p = Query . parse (extract parseS "|") "Query Parser"

@@ -66,8 +66,11 @@ test-suite hjq-test
       Bugs
       Bugs.Bug0
       Features
+      Features.EvalConditionQueries
+      Features.EvalIndexQueries
       Features.EvalMoveQueries
       Features.Feature0
+      Features.ParseConditionQueries
       Features.ParseIndexQueries
       Features.ParseMoveQueries
       Paths_hjq
