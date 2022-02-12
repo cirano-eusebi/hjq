@@ -38,11 +38,12 @@ parseOp :: String -> a -> Parser a
 parseOp name op = try $ string name >> parserReturn op
 
 parseBiOp :: Parser BiOperation
-parseBiOp = parseOp "eq" Eq <|>
-    parseOp "gt" Gt <|>
-    parseOp "lt" Lt <|>
+parseBiOp =
+    parseOp "eq" Eq <|>
     parseOp "gte" Gte <|>
-    parseOp "lte" Lte
+    parseOp "gt" Gt <|>
+    parseOp "lte" Lte <|>
+    parseOp "lt" Lt
 
 parseUniOp :: Parser UniOperation
 parseUniOp =
