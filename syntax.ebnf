@@ -1,10 +1,13 @@
+/*
+* Apply in https://bottlecaps.de/rr/ui
+*/
 Query ::= ( (Sentence+) | '|' )*
 
 Sentence ::= ('.' key?) | ('[' index ']') | ('(' booleanQuery ')')
 
-booleanQuery ::= (unaryOp key) | (key binaryOp literal) | (key)
+booleanQuery ::= (key unaryOp) | (key binaryOp literal) | (key)
 
-unaryOp ::= 'not'
+unaryOp ::= 'not' | 'notEmpty' | 'empty'
 
 binaryOp ::= 'eq' | 'gt' | 'gte' | 'lt' | 'lte'
 
